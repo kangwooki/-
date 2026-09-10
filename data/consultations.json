@@ -1,0 +1,25 @@
+[
+  {
+    "name": "김여악",
+    "phone": "01071031357",
+    "email": "aibbaba@naver.com",
+    "location": "공주시 무능면",
+    "landSize": "1000",
+    "plantTypes": "",
+    "selectedCategories": [
+      "토지 관리",
+      "토양 및 환경 확인",
+      "빈집 관리",
+      "주변 토지 관리"
+    ],
+    "details": "상속받았어요.",
+    "privacyAgreed": true,
+    "attachedFiles": [],
+    "id": "SG-20260910-7688",
+    "submittedAt": "2026. 09. 10. 15:05:36",
+    "ipAddress": "125.140.170.7, 169.254.169.126",
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36",
+    "sheetSynced": false,
+    "emailSent": false
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "name": "세이프가든 - Safe Garden",
+  "description": "토지를 보고, 식물을 이해하고, 자산을 관리합니다. 한국의 토지 및 식물자산 관리 서비스 기업 세이프가든 공식 반응형 웹사이트",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
