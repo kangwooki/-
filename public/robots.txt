@@ -1,7 +1,37 @@
+# Safe Garden (세이프가든) - Robots.txt
+# Allows Google search engines and modern AI crawlers (ChatGPT, Gemini, Claude, Perplexity)
+
 User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Bingbot
 Allow: /
 
 User-agent: *
 Allow: /
 
-Sitemap: https://safegarden.kr/sitemap.xml
+Sitemap: https://sefegarden.netlify.app/sitemap.xml
