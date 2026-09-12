@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, MapPin, Clock, ArrowUpRight, Lock } from 'lucide-react';
+import { Mail, Clock, ArrowUpRight, Lock } from 'lucide-react';
 import { PageTab } from '../types';
 import { BRAND } from '../data/constants';
 import { SafeGardenLogo } from './SafeGardenLogo';
@@ -132,30 +132,23 @@ export const Footer: React.FC<FooterProps> = ({ onSelectTab }) => {
             <h4 className="text-xs font-semibold text-[#5E856F] tracking-wider uppercase">
               회사 기본정보
             </h4>
-            <div className="space-y-2 text-xs text-[#FAF8F5]/70 leading-relaxed">
+            <div className="space-y-2.5 text-xs text-[#FAF8F5]/70 leading-relaxed">
               <div className="flex items-start space-x-2">
                 <span className="text-[#FAF8F5]/40 w-16 shrink-0">상호명</span>
-                <span className="text-[#FAF8F5]/90">세이프가든 (Safe Garden)</span>
+                <span className="text-[#FAF8F5]/90 font-medium">세이프가든 (Safe Garden)</span>
               </div>
               <div className="flex items-start space-x-2">
                 <span className="text-[#FAF8F5]/40 w-16 shrink-0">대표자</span>
-                <span>대표 홍길동 (사업자 정보 등록 예정)</span>
-              </div>
-              <div className="flex items-start space-x-2">
-                <span className="text-[#FAF8F5]/40 w-16 shrink-0">사업자번호</span>
-                <span className="font-mono">000-00-00000 (설립 준비 및 등록 중)</span>
-              </div>
-              <div className="flex items-start space-x-2">
-                <MapPin className="w-3.5 h-3.5 text-[#5E856F] shrink-0 mt-0.5" />
-                <span>대한민국 (전국 현장조사 및 지역별 거점 순차 오픈)</span>
-              </div>
-              <div className="flex items-start space-x-2">
-                <Phone className="w-3.5 h-3.5 text-[#5E856F] shrink-0 mt-0.5" />
-                <span className="font-mono">1544-0000 / 010-0000-0000</span>
+                <span className="text-[#FAF8F5]/90 font-medium">대표 김영락</span>
               </div>
               <div className="flex items-start space-x-2">
                 <Mail className="w-3.5 h-3.5 text-[#5E856F] shrink-0 mt-0.5" />
-                <span className="font-mono">contact@safegarden.kr</span>
+                <a
+                  href="mailto:cuthip@gmail.com"
+                  className="font-mono text-[#FAF8F5]/90 hover:text-white hover:underline transition-colors"
+                >
+                  cuthip@gmail.com
+                </a>
               </div>
               <div className="flex items-start space-x-2">
                 <Clock className="w-3.5 h-3.5 text-[#5E856F] shrink-0 mt-0.5" />
