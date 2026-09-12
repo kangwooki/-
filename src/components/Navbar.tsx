@@ -27,7 +27,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onSelectTab }) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#F4F1E8]/95 backdrop-blur-md border-b border-[#23382A]/10 transition-colors">
+    <header className="sticky top-0 z-50 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-[#1E4334]/10 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
@@ -56,13 +56,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onSelectTab }) => {
                   onClick={() => handleNavClick(item.tab)}
                   className={`px-3.5 py-2 rounded-md text-[15px] font-medium transition-all relative ${
                     isActive
-                      ? 'text-[#23382A] font-bold bg-[#23382A]/5'
-                      : 'text-[#23382A]/80 hover:text-[#23382A] hover:bg-[#23382A]/5'
+                      ? 'text-[#1E4334] font-bold bg-[#1E4334]/8'
+                      : 'text-[#21262B]/85 hover:text-[#1E4334] hover:bg-[#1E4334]/5'
                   }`}
                 >
                   {item.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#23382A] rounded-full" />
+                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#1E4334] rounded-full" />
                   )}
                 </button>
               );
@@ -74,10 +74,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onSelectTab }) => {
             <button
               id="header-cta-btn"
               onClick={() => handleNavClick('consultation')}
-              className="inline-flex items-center justify-center space-x-2 px-5 py-2.5 bg-[#23382A] hover:bg-[#2e4634] text-[#F4F1E8] text-sm font-semibold rounded-lg shadow-sm hover:shadow transition-all border border-[#23382A] active:scale-[0.98]"
+              className="inline-flex items-center justify-center space-x-2 px-5 py-2.5 bg-[#1E4334] hover:bg-[#255240] text-[#FAF8F5] text-sm font-semibold rounded-lg shadow-sm hover:shadow transition-all border border-[#1E4334] active:scale-[0.98]"
             >
               <span>현장평가 상담</span>
-              <ArrowRight className="w-4 h-4 text-[#C9B98B]" />
+              <ArrowRight className="w-4 h-4 text-[#5E856F]" />
             </button>
           </div>
 
@@ -86,14 +86,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onSelectTab }) => {
             <button
               id="mobile-header-cta"
               onClick={() => handleNavClick('consultation')}
-              className="px-3.5 py-1.5 bg-[#23382A] text-[#F4F1E8] text-xs font-semibold rounded-md shadow-xs"
+              className="px-3.5 py-1.5 bg-[#1E4334] text-[#FAF8F5] text-xs font-semibold rounded-md shadow-xs"
             >
               상담
             </button>
             <button
               id="mobile-menu-toggle-btn"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md text-[#23382A] hover:bg-[#23382A]/10 focus:outline-none"
+              className="p-2 rounded-md text-[#1E4334] hover:bg-[#1E4334]/10 focus:outline-none"
               aria-label="메뉴 열기"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -105,9 +105,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onSelectTab }) => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-[#23382A]/10 bg-[#F4F1E8] px-4 pt-2 pb-6 space-y-2 shadow-lg">
-          <div className="py-2 border-b border-[#23382A]/10 text-xs text-[#23382A]/60 flex items-center space-x-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#6F8068]" />
+        <div className="md:hidden border-b border-[#1E4334]/10 bg-[#FAF8F5] px-4 pt-2 pb-6 space-y-2 shadow-lg">
+          <div className="py-2 border-b border-[#1E4334]/10 text-xs text-[#21262B]/70 flex items-center space-x-1">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#5E856F]" />
             <span>토지를 보고, 식물을 이해하고, 자산을 관리합니다.</span>
           </div>
 
@@ -121,8 +121,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onSelectTab }) => {
                   onClick={() => handleNavClick(item.tab)}
                   className={`w-full text-left px-4 py-3 rounded-lg text-base font-medium transition-colors ${
                     isActive
-                      ? 'bg-[#23382A] text-[#F4F1E8] font-semibold'
-                      : 'text-[#23382A] hover:bg-[#23382A]/5'
+                      ? 'bg-[#1E4334] text-[#FAF8F5] font-semibold'
+                      : 'text-[#21262B] hover:bg-[#1E4334]/5'
                   }`}
                 >
                   {item.label}
@@ -135,10 +135,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onSelectTab }) => {
             <button
               id="mobile-drawer-cta-btn"
               onClick={() => handleNavClick('consultation')}
-              className="w-full flex items-center justify-center space-x-2 py-3 bg-[#23382A] text-[#F4F1E8] font-semibold rounded-lg text-sm shadow"
+              className="w-full flex items-center justify-center space-x-2 py-3 bg-[#1E4334] text-[#FAF8F5] font-semibold rounded-lg text-sm shadow"
             >
               <span>현장평가 상담 신청</span>
-              <ArrowRight className="w-4 h-4 text-[#C9B98B]" />
+              <ArrowRight className="w-4 h-4 text-[#5E856F]" />
             </button>
           </div>
         </div>

@@ -1,28 +1,45 @@
+import pv5VanImg from '../assets/images/safegarden_van_matched_ci_1789029216855.jpg';
+import ciOfficialImg from '../assets/images/safegarden_ci_official_1789028536982.jpg';
+
 export const BRAND = {
   nameKo: '세이프가든',
   nameEn: 'Safe Garden',
   slogan: '당신의 식물자산을 지켜드립니다.',
   coreMessage: '토지를 보고, 식물을 이해하고, 자산을 관리합니다.',
   colors: {
-    primaryDarkGreen: '#23382A',
-    warmIvory: '#F4F1E8',
-    sage: '#6F8068',
-    mutedGold: '#C9B98B',
+    primaryDarkGreen: '#1E4334', // Official Deep Pine Green (CI Primary)
+    darkCharcoal: '#21262B', // Neutral Dark Charcoal for text & contrast
+    slateNavy: '#20313E', // Corporate Deep Slate
+    sage: '#5E856F', // Muted Botanical Sage
+    paleSage: '#E5EDE8', // Soft Mint Wash / Surface Tint
+    warmIvory: '#FAF8F5', // Official Brand Canvas Ivory
+    mutedGold: '#5E856F', // Legacy fallback mapped to botanical sage
     white: '#FFFFFF',
   },
 };
 
 export const IMAGES = {
+  // Safe Garden Official CI Presentation
+  ciOfficial: ciOfficialImg,
+  // Safe Garden Field Service Inspection Van with refined corporate CI livery
+  pv5Van: pv5VanImg,
+  // Hero field visual featuring the Safe Garden company vehicle
+  heroField: pv5VanImg,
   // Real Korean rural farmland with mountains and natural trees
-  heroField: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80',
-  // Real agricultural soil / tilled earth
-  soilLand: 'https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&w=1200&q=80',
+  farmLandscape: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80',
+  // Real agricultural soil testing / measurement
+  soilTesting: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=1200&q=80',
+  soilLand: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=1200&q=80',
+  // Fruit orchard / cultivated fruit trees field
+  fruitOrchard: 'https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1200&q=80',
   // Agricultural road and vehicle accessibility
   countryRoad: 'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1200&q=80',
   // Field survey & plant check
   fieldSurvey: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=1200&q=80',
   // Trees growing naturally in managed land
   treeGrove: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80',
+  // Planting and cultivation care
+  plantingCare: 'https://images.unsplash.com/photo-1592417817098-8f3d69103851?auto=format&fit=crop&w=1200&q=80',
   // Vacant rural house and courtyard
   vacantHouse: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1200&q=80',
   // Vacant house yard & fence
@@ -36,57 +53,53 @@ export const IMAGES = {
 export const CORE_SERVICES = [
   {
     num: '01',
-    id: 'accessibility',
-    title: '접근성 조사',
-    subtitle: '도로 폭과 장비 진입로 확인',
-    description: '진입도로, 농로, 차량 접근성, 작업공간과 향후 운반 가능성까지 확인합니다.',
+    id: 'land-environment',
+    title: '토지·환경 분석',
+    subtitle: '토양·수분·배수 및 접근성 분석',
+    description: '토양, 수분·배수, 일조, 진입로와 차량 접근성, 주변 환경 등을 종합적으로 확인하여 토지의 활용 가능성을 분석합니다.',
     details: [
-      '농로 및 마을 진입로 실측 폭 확인',
-      '화물차 및 굴삭기·크레인 등 중장비 회전 반경 점검',
-      '작업용 야적 공간 및 안전 반출 동선 파악',
-      '전선, 배수로 등 진입 저해요소 사전 조사',
+      '토양·배수·일조 분석',
+      '진입로·차량 접근성 확인',
+      '주변 환경 및 작업조건 확인',
     ],
-    imageUrl: IMAGES.countryRoad,
+    imageUrl: IMAGES.soilTesting,
   },
   {
     num: '02',
-    id: 'soil-analysis',
-    title: '토양·환경 분석',
-    subtitle: '생육 환경과 토질 정밀 관찰',
-    description: '토양과 수분·배수, 일조, 주변 식생과 식물의 생육상태를 확인합니다.',
+    id: 'planting-care',
+    title: '식물 식재·관리',
+    subtitle: '환경에 맞는 식물 선택과 맞춤 관리',
+    description: '토지의 환경과 목적에 맞는 식물을 선택하고, 예초·전정·관수·시비·병해충 예찰 등 필요한 관리를 수행합니다.',
     details: [
-      '토성(점토, 사질토 등) 및 유기물 층 현장 관찰',
-      '강우 시 배수성 및 지하수위·침수 위험도 파악',
-      '계절별 일조 시간 및 지형적 음영 구역 분석',
-      '기존 자생 식생 및 병충해 이력 징후 예찰',
+      '적합 식물 선정 및 식재',
+      '생육 예찰 및 기록',
+      '예초·전정·관수·시비·병해충 관리',
     ],
-    imageUrl: IMAGES.soilLand,
+    imageUrl: IMAGES.fruitOrchard,
   },
   {
     num: '03',
-    id: 'planting-care',
-    title: '식물 식재·관리',
-    subtitle: '환경에 맞는 수종 선정 및 맞춤 관리',
-    description: '토지의 조건과 관리 목적에 맞는 식물을 선택하고 필요한 만큼 관리합니다.',
+    id: 'vacant-surroundings',
+    title: '빈집·주변 관리',
+    subtitle: '방치된 빈집 정리와 재산 상태 유지',
+    description: '방치된 빈집과 주변 환경을 정리하고, 주기적인 관리로 재산의 상태를 유지합니다.',
     details: [
-      '토양 환경과 관리 주기에 최적화된 수종 제안',
-      '뿌리 안착을 고려한 바른 식재 및 지주목 설치',
-      '계절별 생육 상태 관찰 및 최소 개입 맞춤 관리',
-      '과잉 약제·불필요 전정 지양, 식물 건강 우선',
+      '빈집 내부 청소·정리',
+      '잡초·수목 등 주변 환경 관리',
+      '정기 방문 및 상태 확인',
     ],
-    imageUrl: IMAGES.treeGrove,
+    imageUrl: IMAGES.vacantHouse,
   },
   {
     num: '04',
     id: 'harvest-transplant',
     title: '출하·이식',
-    subtitle: '자산 가치를 보존하는 굴취와 운송',
-    description: '필요한 경우 굴취, 이식, 운송, 출하까지 연결합니다.',
+    subtitle: '식물자산의 수확부터 굴취·이식·운송까지',
+    description: '성장한 식물자산의 수확·출하부터 필요한 경우 굴취·이식·운송까지 연결합니다.',
     details: [
-      '목표 수목의 뿌리분 형성 및 굴취 적기 판단',
-      '손상 없는 상차, 결속 및 특수 운송 장비 연계',
-      '안전한 이식 대상지 선정 및 이식 후 활착 유도',
-      '조경수·유실수 자산 가치 평가 및 실수요처 연계',
+      '수확·출하',
+      '굴취·이식',
+      '운송 및 수요처 연계',
     ],
     imageUrl: IMAGES.transplantCare,
   },

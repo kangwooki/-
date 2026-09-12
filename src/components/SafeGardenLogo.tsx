@@ -1,8 +1,8 @@
 import React from 'react';
 
 export interface SafeGardenLogoProps {
-  variant?: 'symbol' | 'horizontal' | 'vertical' | 'full';
-  theme?: 'light' | 'dark' | 'gold' | 'monochrome';
+  variant?: 'symbol' | 'horizontal' | 'vertical' | 'full' | 'app-icon';
+  theme?: 'light' | 'dark' | 'sage' | 'monochrome';
   className?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'custom';
   showSubtitle?: boolean;
@@ -10,10 +10,21 @@ export interface SafeGardenLogoProps {
 
 /**
  * Official Safe Garden (세이프가든) Brand CI Component
- * Faithfully vectorized from the official brand CI emblem:
- * - Geometric double-line protective shield (Safe)
- * - Living green botanical leaf with natural venation (Garden / Plant Assets)
- * - Harmonized color palette matching the brand's earthy green & warm ivory identity
+ * Vectorized strictly according to the official brand identity sheet (ci_sheet.svg):
+ * 
+ * 1. The Earth Baseline (대지/토지): Symmetrical ground line representing land and asset stability.
+ * 2. Protective Greenhouse Arch (안전/온실 아치 - Safe): Architectural dome shielding plant assets.
+ * 3. Botanical Sprout & Petals (생명력/식물자산 - Garden):
+ *    - Grounded center stem rising from the soil
+ *    - Upward-blooming central bud (pointed leaf apex)
+ *    - Symmetrical botanical curves embracing the protective arch
+ * 4. Official Brand Colors:
+ *    - Primary Deep Pine Green: #1E4334
+ *    - Neutral Dark Charcoal: #21262B
+ *    - Corporate Slate Navy: #20313E
+ *    - Botanical Sage: #5E856F
+ *    - Light Mint Wash: #E5EDE8
+ *    - Canvas Warm Ivory: #FAF8F5
  */
 export const SafeGardenLogo: React.FC<SafeGardenLogoProps> = ({
   variant = 'horizontal',
@@ -22,52 +33,48 @@ export const SafeGardenLogo: React.FC<SafeGardenLogoProps> = ({
   size = 'md',
   showSubtitle = true,
 }) => {
-  // Color palette assignment based on theme
+  // Color assignment based on official brand palette
   const getColors = () => {
     switch (theme) {
       case 'dark':
         return {
-          stroke: '#EFECE3', // Warm ivory outline for dark backgrounds
-          leafFill: '#52A65A', // Fresh botanical green
-          veinStroke: '#1C2C21', // Dark interior veins for high contrast
-          stemStroke: '#EFECE3', // Bottom interlocking stem
-          textPrimary: '#FFFFFF',
-          textSecondary: '#C9B98B', // Muted gold
+          stroke: '#FAF8F5', // Warm Ivory White
+          textPrimary: '#FAF8F5',
+          textSecondary: '#E5EDE8', // Soft Mint Wash
+          accent: '#5E856F', // Muted Sage
+          bg: '#1E4334',
         };
-      case 'gold':
+      case 'sage':
         return {
-          stroke: '#C9B98B', // Muted gold
-          leafFill: '#52A65A',
-          veinStroke: '#23382A',
-          stemStroke: '#C9B98B',
-          textPrimary: '#C9B98B',
-          textSecondary: '#EFECE3',
+          stroke: '#5E856F',
+          textPrimary: '#1E4334',
+          textSecondary: '#5E856F',
+          accent: '#5E856F',
+          bg: '#E5EDE8',
         };
       case 'monochrome':
         return {
           stroke: 'currentColor',
-          leafFill: 'currentColor',
-          veinStroke: '#FFFFFF',
-          stemStroke: 'currentColor',
           textPrimary: 'currentColor',
           textSecondary: 'currentColor',
+          accent: 'currentColor',
+          bg: 'transparent',
         };
       case 'light':
       default:
         return {
-          stroke: '#23382A', // Deep forest green
-          leafFill: '#4E9C54', // Natural vibrant foliage green
-          veinStroke: '#23382A',
-          stemStroke: '#23382A',
-          textPrimary: '#23382A',
-          textSecondary: '#6F8068', // Sage green
+          stroke: '#1E4334', // Deep Pine Green (Primary Brand Color)
+          textPrimary: '#1E4334',
+          textSecondary: '#5E856F', // Muted Sage Green
+          accent: '#20313E', // Corporate Slate
+          bg: '#FAF8F5',
         };
     }
   };
 
   const colors = getColors();
 
-  // Size preset mapping
+  // Size mapping
   const symbolSizeMap = {
     sm: 'w-7 h-7',
     md: 'w-10 h-10',
@@ -79,104 +86,63 @@ export const SafeGardenLogo: React.FC<SafeGardenLogoProps> = ({
   const symbolClass = symbolSizeMap[size] || symbolSizeMap.md;
 
   /**
-   * The core Emblem SVG (Shield + Leaf + Stem)
+   * The Official Emblem Vector (Earth Baseline + Greenhouse Arch + Living Botanical Sprout)
    */
   const renderSymbol = () => (
     <svg
-      viewBox="0 0 200 215"
+      viewBox="0 0 120 128"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`${symbolClass} shrink-0 transition-transform duration-300`}
-      aria-label="세이프가든 공식 심볼"
+      aria-label="세이프가든 공식 CI 심볼"
     >
-      {/* 1. OUTER SHIELD: Double-line silhouette */}
-      {/* Top dip -> Left shoulder -> Left side -> Bottom tip -> Right side -> Right shoulder */}
-      <path
-        d="M 100 26 
-           L 54 44 
-           C 50 49 48 57 48 68 
-           L 51 106 
-           C 54 133 73 158 100 178 
-           C 127 158 146 133 149 106 
-           L 152 68 
-           C 152 57 150 49 146 44 
-           Z"
+      {/* 1. Earth Baseline (대지/토지 기저선) */}
+      <line
+        x1="18"
+        y1="108"
+        x2="102"
+        y2="108"
         stroke={colors.stroke}
-        strokeWidth="7"
+        strokeWidth="5"
         strokeLinecap="round"
-        strokeLinejoin="round"
       />
 
-      {/* 2. INNER SHIELD: Parallel interior contour */}
+      {/* 2. Protective Greenhouse Arch (안전과 보호의 온실 아치 돔) */}
       <path
-        d="M 100 42 
-           L 66 56 
-           C 63 60 62 66 62 74 
-           L 65 104 
-           C 67 124 81 144 100 160 
-           C 119 144 133 124 135 104 
-           L 138 74 
-           C 138 66 137 60 134 56 
-           L 115 48"
+        d="M 32 108 L 32 64 C 32 38, 44 24, 60 24 C 76 24, 88 38, 88 64 L 88 108"
         stroke={colors.stroke}
-        strokeWidth="6"
+        strokeWidth="4.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
 
-      {/* 3. THE LEAF BODY: Lush green botanical leaf tilted toward upper right */}
-      <path
-        d="M 128 44 
-           C 136 78 132 120 78 148 
-           C 74 130 68 96 96 66 
-           C 108 53 120 46 128 44 Z"
-        fill={colors.leafFill}
+      {/* 3. Center Stem (토양에 뿌리내린 중심 줄기) */}
+      <line
+        x1="60"
+        y1="108"
+        x2="60"
+        y2="68"
         stroke={colors.stroke}
-        strokeWidth="6"
-        strokeLinejoin="round"
+        strokeWidth="4.5"
+        strokeLinecap="round"
       />
 
-      {/* 4. LEAF VEINS & INTERLOCKING STEM */}
-      {/* Central Midrib curving down into the bottom interlocking stem */}
+      {/* 4. Central Botanical Bud / Leaf (상승하는 중심 꽃봉오리/새싹 잎) */}
       <path
-        d="M 125 50 
-           C 112 85 96 118 79 148 
-           C 76 156 81 164 91 164 
-           C 104 164 114 154 117 138"
-        stroke={colors.veinStroke}
-        strokeWidth="5.5"
+        d="M 60 32 C 48 46, 48 58, 60 68 C 72 58, 72 46, 60 32 Z"
+        stroke={colors.stroke}
+        strokeWidth="4"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
 
-      {/* Side branching veins on the leaf */}
-      {/* Top right side vein */}
+      {/* 5. Symmetrical Side Petal Branches (아치로 확장되는 양측 잎맥 곡선) */}
       <path
-        d="M 113 80 C 119 76 126 77 130 81"
-        stroke={colors.veinStroke}
-        strokeWidth="4.5"
+        d="M 32 64 C 40 68, 50 68, 60 68 C 70 68, 80 68, 88 64"
+        stroke={colors.stroke}
+        strokeWidth="4"
         strokeLinecap="round"
-      />
-      {/* Middle right side vein */}
-      <path
-        d="M 103 100 C 111 98 120 100 124 107"
-        stroke={colors.veinStroke}
-        strokeWidth="4.5"
-        strokeLinecap="round"
-      />
-      {/* Lower right side vein */}
-      <path
-        d="M 92 122 C 99 122 108 127 112 133"
-        stroke={colors.veinStroke}
-        strokeWidth="4.5"
-        strokeLinecap="round"
-      />
-      {/* Left side vein */}
-      <path
-        d="M 104 90 C 96 91 88 88 83 83"
-        stroke={colors.veinStroke}
-        strokeWidth="4.5"
-        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -186,24 +152,64 @@ export const SafeGardenLogo: React.FC<SafeGardenLogoProps> = ({
     return <div className={`inline-flex items-center justify-center ${className}`}>{renderSymbol()}</div>;
   }
 
-  // 2. Vertical Stacked Variant (Exact CI layout with "Safe Garden" wordmark below)
+  // 2. App Icon Variant (Rounded Squircle Badge like row 6 in CI sheet)
+  if (variant === 'app-icon') {
+    return (
+      <div
+        className={`inline-flex items-center justify-center p-2.5 rounded-2xl bg-[#1E4334] text-white shadow-md ${className}`}
+      >
+        <svg
+          viewBox="0 0 120 128"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className={symbolClass}
+        >
+          <line x1="18" y1="108" x2="102" y2="108" stroke="#FFFFFF" strokeWidth="5" strokeLinecap="round" />
+          <path
+            d="M 32 108 L 32 64 C 32 38, 44 24, 60 24 C 76 24, 88 38, 88 64 L 88 108"
+            stroke="#FFFFFF"
+            strokeWidth="4.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <line x1="60" y1="108" x2="60" y2="68" stroke="#FFFFFF" strokeWidth="4.5" strokeLinecap="round" />
+          <path
+            d="M 60 32 C 48 46, 48 58, 60 68 C 72 58, 72 46, 60 32 Z"
+            stroke="#FFFFFF"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M 32 64 C 40 68, 50 68, 60 68 C 70 68, 80 68, 88 64"
+            stroke="#FFFFFF"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+    );
+  }
+
+  // 3. Vertical Stacked Variant (CI Presentation Layout)
   if (variant === 'vertical' || variant === 'full') {
     return (
       <div className={`flex flex-col items-center text-center select-none ${className}`}>
         {renderSymbol()}
-        <div className="mt-2.5 flex flex-col items-center">
+        <div className="mt-3 flex flex-col items-center">
           <span
             style={{ color: colors.textPrimary }}
-            className="text-2xl font-bold tracking-tight font-sans leading-none"
+            className="text-2xl sm:text-3xl font-bold tracking-tight font-sans leading-none"
           >
             Safe Garden
           </span>
           {showSubtitle && (
             <span
               style={{ color: colors.textSecondary }}
-              className="text-xs font-medium tracking-wider mt-1.5 uppercase"
+              className="text-xs sm:text-sm font-semibold tracking-wider mt-1.5 uppercase"
             >
-              세이프가든 · 식물자산 종합관리
+              세이프가든 · 식물자산 솔루션
             </span>
           )}
         </div>
@@ -211,7 +217,7 @@ export const SafeGardenLogo: React.FC<SafeGardenLogoProps> = ({
     );
   }
 
-  // 3. Horizontal Header/Navbar Variant
+  // 4. Horizontal Header/Navbar Variant
   return (
     <div className={`flex items-center space-x-3 select-none ${className}`}>
       {renderSymbol()}

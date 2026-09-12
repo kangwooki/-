@@ -52,7 +52,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F4F1E8] text-[#23382A]">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#1E4334]">
       {/* Top Navigation */}
       <Navbar currentTab={currentTab} onSelectTab={handleSelectTab} />
 
@@ -75,7 +75,7 @@ export default function App() {
           <button
             id="scroll-to-top-btn"
             onClick={scrollToTop}
-            className="w-11 h-11 rounded-full bg-white/90 text-[#23382A] border border-[#23382A]/15 shadow-md flex items-center justify-center hover:bg-white transition-all active:scale-95"
+            className="w-11 h-11 rounded-full bg-white/90 text-[#1E4334] border border-[#1E4334]/15 shadow-md flex items-center justify-center hover:bg-white transition-all active:scale-95"
             aria-label="맨 위로 이동"
           >
             <ArrowUp className="w-5 h-5" />
@@ -86,7 +86,7 @@ export default function App() {
           <button
             id="floating-consult-btn"
             onClick={() => handleSelectTab('consultation')}
-            className="hidden sm:flex items-center space-x-2.5 px-4 py-2.5 rounded-full bg-[#23382A] text-[#F4F1E8] shadow-lg hover:bg-[#2E4634] transition-all border border-[#C9B98B]/40 active:scale-95 text-xs font-bold"
+            className="hidden sm:flex items-center space-x-2.5 px-4 py-2.5 rounded-full bg-[#1E4334] text-[#FAF8F5] shadow-lg hover:bg-[#255240] transition-all border border-[#5E856F]/40 active:scale-95 text-xs font-bold"
           >
             <SafeGardenLogo variant="symbol" size="sm" theme="gold" />
             <span>현장평가 상담</span>

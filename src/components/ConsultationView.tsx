@@ -177,21 +177,21 @@ export const ConsultationView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-0 text-[#23382A]">
+    <div className="space-y-0 text-[#1E4334]">
       
       {/* Header Banner */}
-      <section className="bg-[#F4F1E8] py-16 lg:py-20 border-b border-[#23382A]/10">
+      <section className="bg-[#FAF8F5] py-16 lg:py-20 border-b border-[#1E4334]/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-          <span className="text-xs font-semibold text-[#6F8068] uppercase tracking-wider block">
+          <span className="text-xs font-semibold text-[#5E856F] uppercase tracking-wider block">
             ON-SITE EVALUATION CONSULTATION
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#23382A]">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#1E4334]">
             내 토지와 빈집, 한번 확인해보세요.
           </h1>
-          <p className="text-lg sm:text-xl font-medium text-[#6F8068]">
+          <p className="text-lg sm:text-xl font-medium text-[#5E856F]">
             "현장을 알아야 정확한 판단을 할 수 있습니다."
           </p>
-          <p className="text-sm text-[#23382A]/70 max-w-xl mx-auto">
+          <p className="text-sm text-[#1E4334]/70 max-w-xl mx-auto">
             직접 방문하기 어려운 토지와 빈집의 위치와 고민을 남겨주시면, 
             사전 위성/도로망 검토 후 현장 평가 및 일정 안내를 도와드립니다.
           </p>
@@ -203,72 +203,72 @@ export const ConsultationView: React.FC = () => {
           
           {isSubmitted && submittedData ? (
             /* Success Feedback Card */
-            <div className="p-8 sm:p-12 rounded-2xl bg-[#F4F1E8] border border-[#23382A]/15 text-center space-y-6 shadow-sm">
-              <div className="w-16 h-16 rounded-full bg-[#23382A] text-[#C9B98B] flex items-center justify-center mx-auto shadow-md">
+            <div className="p-8 sm:p-12 rounded-2xl bg-[#FAF8F5] border border-[#1E4334]/15 text-center space-y-6 shadow-sm">
+              <div className="w-16 h-16 rounded-full bg-[#1E4334] text-[#5E856F] flex items-center justify-center mx-auto shadow-md">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
 
               <div className="space-y-2">
-                <span className="text-xs font-bold text-[#6F8068] uppercase tracking-wider">
+                <span className="text-xs font-bold text-[#5E856F] uppercase tracking-wider">
                   신청 접수 완료
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-bold text-[#23382A]">
+                <h2 className="text-2xl sm:text-3xl font-bold text-[#1E4334]">
                   상담 신청이 정상적으로 접수되었습니다.
                 </h2>
-                <p className="text-sm text-[#23382A]/80 leading-relaxed max-w-md mx-auto">
-                  남겨주신 <strong className="text-[#23382A]">{location}</strong> 현장에 대해 
+                <p className="text-sm text-[#1E4334]/80 leading-relaxed max-w-md mx-auto">
+                  남겨주신 <strong className="text-[#1E4334]">{location}</strong> 현장에 대해 
                   위성 도로망 및 기초 정보를 1차 검토 후, 
-                  영업일 기준 24시간 이내에 담당자가 <strong className="text-[#23382A]">{phone}</strong> 로 안내 연락을 드립니다.
+                  영업일 기준 24시간 이내에 담당자가 <strong className="text-[#1E4334]">{phone}</strong> 로 안내 연락을 드립니다.
                 </p>
               </div>
 
               {/* Summary Box with Real Server ID & Timestamp */}
-              <div className="p-6 rounded-xl bg-white border border-[#23382A]/10 text-left text-xs space-y-2.5 max-w-md mx-auto shadow-xs">
-                <div className="flex justify-between border-b border-[#23382A]/10 pb-2">
-                  <span className="text-[#23382A]/60">접수 번호</span>
-                  <span className="font-mono font-bold text-[#23382A]">{submittedData.id}</span>
+              <div className="p-6 rounded-xl bg-white border border-[#1E4334]/10 text-left text-xs space-y-2.5 max-w-md mx-auto shadow-xs">
+                <div className="flex justify-between border-b border-[#1E4334]/10 pb-2">
+                  <span className="text-[#1E4334]/60">접수 번호</span>
+                  <span className="font-mono font-bold text-[#1E4334]">{submittedData.id}</span>
                 </div>
-                <div className="flex justify-between border-b border-[#23382A]/10 pb-2">
-                  <span className="text-[#23382A]/60">접수 일시</span>
-                  <span className="font-semibold text-[#23382A]">{submittedData.submittedAt}</span>
+                <div className="flex justify-between border-b border-[#1E4334]/10 pb-2">
+                  <span className="text-[#1E4334]/60">접수 일시</span>
+                  <span className="font-semibold text-[#1E4334]">{submittedData.submittedAt}</span>
                 </div>
-                <div className="flex justify-between border-b border-[#23382A]/10 pb-2">
-                  <span className="text-[#23382A]/60">신청자명</span>
-                  <span className="font-semibold text-[#23382A]">{name}</span>
+                <div className="flex justify-between border-b border-[#1E4334]/10 pb-2">
+                  <span className="text-[#1E4334]/60">신청자명</span>
+                  <span className="font-semibold text-[#1E4334]">{name}</span>
                 </div>
-                <div className="flex justify-between border-b border-[#23382A]/10 pb-2">
-                  <span className="text-[#23382A]/60">연락처</span>
-                  <span className="font-semibold text-[#23382A]">{phone}</span>
+                <div className="flex justify-between border-b border-[#1E4334]/10 pb-2">
+                  <span className="text-[#1E4334]/60">연락처</span>
+                  <span className="font-semibold text-[#1E4334]">{phone}</span>
                 </div>
                 {email && (
-                  <div className="flex justify-between border-b border-[#23382A]/10 pb-2">
-                    <span className="text-[#23382A]/60">이메일</span>
-                    <span className="font-semibold text-[#23382A]">{email}</span>
+                  <div className="flex justify-between border-b border-[#1E4334]/10 pb-2">
+                    <span className="text-[#1E4334]/60">이메일</span>
+                    <span className="font-semibold text-[#1E4334]">{email}</span>
                   </div>
                 )}
-                <div className="flex justify-between border-b border-[#23382A]/10 pb-2">
-                  <span className="text-[#23382A]/60">상담 대상 분야</span>
-                  <span className="font-semibold text-[#23382A]">{selectedCategories.join(', ')}</span>
+                <div className="flex justify-between border-b border-[#1E4334]/10 pb-2">
+                  <span className="text-[#1E4334]/60">상담 대상 분야</span>
+                  <span className="font-semibold text-[#1E4334]">{selectedCategories.join(', ')}</span>
                 </div>
                 {landSize && (
-                  <div className="flex justify-between border-b border-[#23382A]/10 pb-2">
-                    <span className="text-[#23382A]/60">토지 규모</span>
-                    <span className="font-semibold text-[#23382A]">{landSize}</span>
+                  <div className="flex justify-between border-b border-[#1E4334]/10 pb-2">
+                    <span className="text-[#1E4334]/60">토지 규모</span>
+                    <span className="font-semibold text-[#1E4334]">{landSize}</span>
                   </div>
                 )}
                 {plantTypes && (
-                  <div className="flex justify-between border-b border-[#23382A]/10 pb-2">
-                    <span className="text-[#23382A]/60">식물 종류</span>
-                    <span className="font-semibold text-[#23382A]">{plantTypes}</span>
+                  <div className="flex justify-between border-b border-[#1E4334]/10 pb-2">
+                    <span className="text-[#1E4334]/60">식물 종류</span>
+                    <span className="font-semibold text-[#1E4334]">{plantTypes}</span>
                   </div>
                 )}
-                <div className="flex justify-between border-b border-[#23382A]/10 pb-2">
-                  <span className="text-[#23382A]/60">첨부 파일</span>
-                  <span className="font-semibold text-[#23382A]">
+                <div className="flex justify-between border-b border-[#1E4334]/10 pb-2">
+                  <span className="text-[#1E4334]/60">첨부 파일</span>
+                  <span className="font-semibold text-[#1E4334]">
                     {attachedFiles.length > 0 ? `${attachedFiles.length}건 등록됨` : '없음'}
                   </span>
                 </div>
-                <div className="pt-2 text-[11px] text-[#6F8068] flex items-center space-x-1">
+                <div className="pt-2 text-[11px] text-[#5E856F] flex items-center space-x-1">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#4E9C54] shrink-0" />
                   <span>데이터가 서버에 안전하게 기록 및 동기화되었습니다.</span>
                 </div>
@@ -277,7 +277,7 @@ export const ConsultationView: React.FC = () => {
               <div className="pt-4 flex flex-col sm:flex-row justify-center gap-3">
                 <button
                   onClick={handleReset}
-                  className="px-6 py-2.5 rounded-lg bg-[#23382A] text-white text-xs font-semibold hover:bg-[#2E4634] transition-all"
+                  className="px-6 py-2.5 rounded-lg bg-[#1E4334] text-white text-xs font-semibold hover:bg-[#255240] transition-all"
                 >
                   추가 상담 신청하기
                 </button>
@@ -296,8 +296,8 @@ export const ConsultationView: React.FC = () => {
 
               {/* 1. 상담 대상 카테고리 선택 (12개 카테고리) */}
               <div className="space-y-3">
-                <label className="block text-sm font-bold text-[#23382A]">
-                  상담 대상 <span className="text-xs font-normal text-[#23382A]/60">(해당되는 항목을 모두 선택해 주세요)</span>
+                <label className="block text-sm font-bold text-[#1E4334]">
+                  상담 대상 <span className="text-xs font-normal text-[#1E4334]/60">(해당되는 항목을 모두 선택해 주세요)</span>
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {CONSULTATION_CATEGORIES.map((cat) => {
@@ -310,8 +310,8 @@ export const ConsultationView: React.FC = () => {
                         onClick={() => toggleCategory(cat)}
                         className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all border ${
                           isSelected
-                            ? 'bg-[#23382A] text-[#F4F1E8] border-[#23382A] shadow-xs'
-                            : 'bg-[#F4F1E8] text-[#23382A]/80 border-[#23382A]/15 hover:border-[#23382A]/40'
+                            ? 'bg-[#1E4334] text-[#FAF8F5] border-[#1E4334] shadow-xs'
+                            : 'bg-[#FAF8F5] text-[#1E4334]/80 border-[#1E4334]/15 hover:border-[#1E4334]/40'
                         }`}
                       >
                         {isSelected ? '✓ ' : ''}{cat}
@@ -324,7 +324,7 @@ export const ConsultationView: React.FC = () => {
               {/* 2. 이름 & 연락처 & 이메일 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label htmlFor="client-name" className="block text-xs font-bold text-[#23382A]">
+                  <label htmlFor="client-name" className="block text-xs font-bold text-[#1E4334]">
                     이름 <span className="text-red-600">*</span>
                   </label>
                   <div className="relative">
@@ -334,14 +334,14 @@ export const ConsultationView: React.FC = () => {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="홍길동"
-                      className="w-full pl-9 pr-3 py-2.5 bg-[#F4F1E8] rounded-lg border border-[#23382A]/20 focus:border-[#23382A] focus:outline-none text-sm text-[#23382A] placeholder-[#23382A]/40"
+                      className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] rounded-lg border border-[#1E4334]/20 focus:border-[#1E4334] focus:outline-none text-sm text-[#1E4334] placeholder-[#1E4334]/40"
                     />
-                    <User className="w-4 h-4 text-[#23382A]/50 absolute left-3 top-3" />
+                    <User className="w-4 h-4 text-[#1E4334]/50 absolute left-3 top-3" />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="client-phone" className="block text-xs font-bold text-[#23382A]">
+                  <label htmlFor="client-phone" className="block text-xs font-bold text-[#1E4334]">
                     연락처 <span className="text-red-600">*</span>
                   </label>
                   <div className="relative">
@@ -351,15 +351,15 @@ export const ConsultationView: React.FC = () => {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="010-0000-0000"
-                      className="w-full pl-9 pr-3 py-2.5 bg-[#F4F1E8] rounded-lg border border-[#23382A]/20 focus:border-[#23382A] focus:outline-none text-sm text-[#23382A] placeholder-[#23382A]/40"
+                      className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] rounded-lg border border-[#1E4334]/20 focus:border-[#1E4334] focus:outline-none text-sm text-[#1E4334] placeholder-[#1E4334]/40"
                     />
-                    <Phone className="w-4 h-4 text-[#23382A]/50 absolute left-3 top-3" />
+                    <Phone className="w-4 h-4 text-[#1E4334]/50 absolute left-3 top-3" />
                   </div>
                 </div>
 
                 <div className="space-y-1.5 sm:col-span-2">
-                  <label htmlFor="client-email" className="block text-xs font-bold text-[#23382A]">
-                    이메일 <span className="text-xs font-normal text-[#23382A]/60">(선택 사항 - 상담 확인서 발송용)</span>
+                  <label htmlFor="client-email" className="block text-xs font-bold text-[#1E4334]">
+                    이메일 <span className="text-xs font-normal text-[#1E4334]/60">(선택 사항 - 상담 확인서 발송용)</span>
                   </label>
                   <div className="relative">
                     <input
@@ -368,16 +368,16 @@ export const ConsultationView: React.FC = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="example@safegarden.kr"
-                      className="w-full pl-9 pr-3 py-2.5 bg-[#F4F1E8] rounded-lg border border-[#23382A]/20 focus:border-[#23382A] focus:outline-none text-sm text-[#23382A] placeholder-[#23382A]/40"
+                      className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] rounded-lg border border-[#1E4334]/20 focus:border-[#1E4334] focus:outline-none text-sm text-[#1E4334] placeholder-[#1E4334]/40"
                     />
-                    <Mail className="w-4 h-4 text-[#23382A]/50 absolute left-3 top-3" />
+                    <Mail className="w-4 h-4 text-[#1E4334]/50 absolute left-3 top-3" />
                   </div>
                 </div>
               </div>
 
               {/* 3. 토지 또는 빈집 위치 */}
               <div className="space-y-1.5">
-                <label htmlFor="client-location" className="block text-xs font-bold text-[#23382A]">
+                <label htmlFor="client-location" className="block text-xs font-bold text-[#1E4334]">
                   토지 또는 빈집 위치 <span className="text-red-600">*</span>
                 </label>
                 <div className="relative">
@@ -387,11 +387,11 @@ export const ConsultationView: React.FC = () => {
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="예: 충남 공주시 유구읍 ○○리 산 00번지 또는 인근 도로명"
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#F4F1E8] rounded-lg border border-[#23382A]/20 focus:border-[#23382A] focus:outline-none text-sm text-[#23382A] placeholder-[#23382A]/40"
+                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] rounded-lg border border-[#1E4334]/20 focus:border-[#1E4334] focus:outline-none text-sm text-[#1E4334] placeholder-[#1E4334]/40"
                   />
-                  <MapPin className="w-4 h-4 text-[#23382A]/50 absolute left-3 top-3" />
+                  <MapPin className="w-4 h-4 text-[#1E4334]/50 absolute left-3 top-3" />
                 </div>
-                <p className="text-[11px] text-[#23382A]/60">
+                <p className="text-[11px] text-[#1E4334]/60">
                   정확한 지번을 모르시는 경우 대략적인 행정구역(시·군·읍·면)이나 주변 지형을 적어주셔도 됩니다.
                 </p>
               </div>
@@ -399,8 +399,8 @@ export const ConsultationView: React.FC = () => {
               {/* 4. 토지 규모 & 식물 종류 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label htmlFor="client-land-size" className="block text-xs font-bold text-[#23382A]">
-                    토지 규모 <span className="text-xs font-normal text-[#23382A]/60">(선택 사항)</span>
+                  <label htmlFor="client-land-size" className="block text-xs font-bold text-[#1E4334]">
+                    토지 규모 <span className="text-xs font-normal text-[#1E4334]/60">(선택 사항)</span>
                   </label>
                   <div className="relative">
                     <input
@@ -409,15 +409,15 @@ export const ConsultationView: React.FC = () => {
                       value={landSize}
                       onChange={(e) => setLandSize(e.target.value)}
                       placeholder="예: 약 500평 또는 1,600㎡ / 미정"
-                      className="w-full pl-9 pr-3 py-2.5 bg-[#F4F1E8] rounded-lg border border-[#23382A]/20 focus:border-[#23382A] focus:outline-none text-sm text-[#23382A] placeholder-[#23382A]/40"
+                      className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] rounded-lg border border-[#1E4334]/20 focus:border-[#1E4334] focus:outline-none text-sm text-[#1E4334] placeholder-[#1E4334]/40"
                     />
-                    <Compass className="w-4 h-4 text-[#23382A]/50 absolute left-3 top-3" />
+                    <Compass className="w-4 h-4 text-[#1E4334]/50 absolute left-3 top-3" />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="client-plant-types" className="block text-xs font-bold text-[#23382A]">
-                    식물 / 수목 종류 <span className="text-xs font-normal text-[#23382A]/60">(선택 사항)</span>
+                  <label htmlFor="client-plant-types" className="block text-xs font-bold text-[#1E4334]">
+                    식물 / 수목 종류 <span className="text-xs font-normal text-[#1E4334]/60">(선택 사항)</span>
                   </label>
                   <div className="relative">
                     <input
@@ -426,17 +426,17 @@ export const ConsultationView: React.FC = () => {
                       value={plantTypes}
                       onChange={(e) => setPlantTypes(e.target.value)}
                       placeholder="예: 소나무, 감나무, 잡목, 잔디 등"
-                      className="w-full pl-9 pr-3 py-2.5 bg-[#F4F1E8] rounded-lg border border-[#23382A]/20 focus:border-[#23382A] focus:outline-none text-sm text-[#23382A] placeholder-[#23382A]/40"
+                      className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] rounded-lg border border-[#1E4334]/20 focus:border-[#1E4334] focus:outline-none text-sm text-[#1E4334] placeholder-[#1E4334]/40"
                     />
-                    <Trees className="w-4 h-4 text-[#23382A]/50 absolute left-3 top-3" />
+                    <Trees className="w-4 h-4 text-[#1E4334]/50 absolute left-3 top-3" />
                   </div>
                 </div>
               </div>
 
               {/* 5. 문의 내용 */}
               <div className="space-y-1.5">
-                <label htmlFor="client-details" className="block text-xs font-bold text-[#23382A]">
-                  문의 내용 <span className="text-xs font-normal text-[#23382A]/60">(현재 상태, 관리 목적 등)</span>
+                <label htmlFor="client-details" className="block text-xs font-bold text-[#1E4334]">
+                  문의 내용 <span className="text-xs font-normal text-[#1E4334]/60">(현재 상태, 관리 목적 등)</span>
                 </label>
                 <textarea
                   id="client-details"
@@ -444,16 +444,16 @@ export const ConsultationView: React.FC = () => {
                   value={details}
                   onChange={(e) => setDetails(e.target.value)}
                   placeholder="예: 상속받은 전답이 있는데 잡초가 무성하여 어떤 식물을 심는 것이 좋을지 현장 확인을 받고 싶습니다. / 시골 부모님 빈집 마당 잡목 정리와 지붕 상태 점검을 희망합니다."
-                  className="w-full p-3 bg-[#F4F1E8] rounded-lg border border-[#23382A]/20 focus:border-[#23382A] focus:outline-none text-sm text-[#23382A] placeholder-[#23382A]/40"
+                  className="w-full p-3 bg-[#FAF8F5] rounded-lg border border-[#1E4334]/20 focus:border-[#1E4334] focus:outline-none text-sm text-[#1E4334] placeholder-[#1E4334]/40"
                 />
               </div>
 
               {/* 6. 사진 첨부 (현장 사진) */}
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-[#23382A]">
-                  현장 사진 첨부 <span className="text-xs font-normal text-[#23382A]/60">(선택 사항)</span>
+                <label className="block text-xs font-bold text-[#1E4334]">
+                  현장 사진 첨부 <span className="text-xs font-normal text-[#1E4334]/60">(선택 사항)</span>
                 </label>
-                <div className="p-5 border-2 border-dashed border-[#23382A]/20 rounded-xl bg-[#F4F1E8]/60 text-center hover:bg-[#F4F1E8] transition-colors relative">
+                <div className="p-5 border-2 border-dashed border-[#1E4334]/20 rounded-xl bg-[#FAF8F5]/60 text-center hover:bg-[#FAF8F5] transition-colors relative">
                   <input
                     type="file"
                     multiple
@@ -463,11 +463,11 @@ export const ConsultationView: React.FC = () => {
                     id="photo-upload-input"
                   />
                   <div className="flex flex-col items-center justify-center space-y-2">
-                    <UploadCloud className="w-8 h-8 text-[#6F8068]" />
-                    <p className="text-xs font-medium text-[#23382A]">
+                    <UploadCloud className="w-8 h-8 text-[#5E856F]" />
+                    <p className="text-xs font-medium text-[#1E4334]">
                       진입로, 토지 전경, 수목 상태 등의 사진을 끌어다 놓거나 클릭하여 업로드
                     </p>
-                    <span className="text-[11px] text-[#23382A]/50">
+                    <span className="text-[11px] text-[#1E4334]/50">
                       JPG, PNG 등 이미지 파일 지원 (여러 장 선택 가능)
                     </span>
                   </div>
@@ -475,19 +475,19 @@ export const ConsultationView: React.FC = () => {
 
                 {attachedFiles.length > 0 && (
                   <div className="space-y-1.5 pt-2">
-                    <span className="text-xs font-semibold text-[#23382A]/70">첨부된 파일:</span>
+                    <span className="text-xs font-semibold text-[#1E4334]/70">첨부된 파일:</span>
                     <div className="flex flex-wrap gap-2">
                       {attachedFiles.map((f, i) => (
                         <div
                           key={i}
-                          className="flex items-center space-x-1.5 px-3 py-1.5 bg-[#23382A]/8 rounded-lg text-xs text-[#23382A]"
+                          className="flex items-center space-x-1.5 px-3 py-1.5 bg-[#1E4334]/8 rounded-lg text-xs text-[#1E4334]"
                         >
                           <span className="truncate max-w-[150px]">{f.name}</span>
-                          <span className="text-[#23382A]/50 text-[10px]">({f.size})</span>
+                          <span className="text-[#1E4334]/50 text-[10px]">({f.size})</span>
                           <button
                             type="button"
                             onClick={() => handleRemoveFile(i)}
-                            className="text-[#23382A]/60 hover:text-red-700"
+                            className="text-[#1E4334]/60 hover:text-red-700"
                           >
                             <X className="w-3.5 h-3.5" />
                           </button>
@@ -499,18 +499,18 @@ export const ConsultationView: React.FC = () => {
               </div>
 
               {/* 7. 개인정보 수집 및 이용 동의 */}
-              <div className="p-4 rounded-xl bg-[#F4F1E8] border border-[#23382A]/15 space-y-2">
+              <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#1E4334]/15 space-y-2">
                 <label className="flex items-start space-x-3 cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={privacyAgreed}
                     onChange={(e) => setPrivacyAgreed(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 rounded text-[#23382A] border-[#23382A]/30 focus:ring-[#23382A] accent-[#23382A]"
+                    className="mt-0.5 w-4 h-4 rounded text-[#1E4334] border-[#1E4334]/30 focus:ring-[#1E4334] accent-[#1E4334]"
                     id="privacy-agreement-checkbox"
                   />
-                  <div className="text-xs text-[#23382A]/80 leading-relaxed">
-                    <span className="font-bold text-[#23382A]">개인정보 수집 및 이용 동의 <span className="text-red-600">*</span></span>
-                    <p className="text-[11px] text-[#23382A]/60 mt-0.5">
+                  <div className="text-xs text-[#1E4334]/80 leading-relaxed">
+                    <span className="font-bold text-[#1E4334]">개인정보 수집 및 이용 동의 <span className="text-red-600">*</span></span>
+                    <p className="text-[11px] text-[#1E4334]/60 mt-0.5">
                       수집 항목: 고객명, 연락처, 이메일, 현장 주소, 토지/식물 정보 | 수집 목적: 현장평가 상담 접수 및 사전 분석 연락 | 보유 기간: 상담 처리 완료 후 1년 또는 요청 시 즉시 파기
                     </p>
                   </div>
@@ -519,8 +519,8 @@ export const ConsultationView: React.FC = () => {
 
               {/* Notice & CTA */}
               <div className="pt-2 space-y-4">
-                <div className="p-4 rounded-lg bg-[#23382A]/5 border border-[#23382A]/10 text-xs text-[#23382A]/80 leading-relaxed flex items-start space-x-2">
-                  <ShieldCheck className="w-4 h-4 text-[#6F8068] shrink-0 mt-0.5" />
+                <div className="p-4 rounded-lg bg-[#1E4334]/5 border border-[#1E4334]/10 text-xs text-[#1E4334]/80 leading-relaxed flex items-start space-x-2">
+                  <ShieldCheck className="w-4 h-4 text-[#5E856F] shrink-0 mt-0.5" />
                   <span>
                     <strong>안내:</strong> 세이프가든은 무작정 패키지 계약을 유도하지 않습니다. 
                     토지와 식물의 여건을 먼저 객관적으로 살핀 뒤 꼭 필요한 서비스만 투명하게 제안합니다.
@@ -531,17 +531,17 @@ export const ConsultationView: React.FC = () => {
                   type="submit"
                   disabled={isSubmitting}
                   id="submit-consultation-btn"
-                  className="w-full py-4 bg-[#23382A] hover:bg-[#2E4634] disabled:bg-[#23382A]/60 text-[#F4F1E8] font-bold text-base rounded-xl shadow-md transition-all active:scale-[0.99] flex items-center justify-center space-x-2 cursor-pointer disabled:cursor-not-allowed"
+                  className="w-full py-4 bg-[#1E4334] hover:bg-[#255240] disabled:bg-[#1E4334]/60 text-[#FAF8F5] font-bold text-base rounded-xl shadow-md transition-all active:scale-[0.99] flex items-center justify-center space-x-2 cursor-pointer disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="w-5 h-5 animate-spin text-[#C9B98B]" />
+                      <Loader2 className="w-5 h-5 animate-spin text-[#5E856F]" />
                       <span>상담 신청 데이터 전송 중...</span>
                     </>
                   ) : (
                     <>
                       <span>상담 신청하기</span>
-                      <ArrowRight className="w-4 h-4 text-[#C9B98B]" />
+                      <ArrowRight className="w-4 h-4 text-[#5E856F]" />
                     </>
                   )}
                 </button>

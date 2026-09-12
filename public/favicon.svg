@@ -1,38 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 215" fill="none">
-  <!-- Outer Shield -->
-  <path
-    d="M 100 26 L 54 44 C 50 49 48 57 48 68 L 51 106 C 54 133 73 158 100 178 C 127 158 146 133 149 106 L 152 68 C 152 57 150 49 146 44 Z"
-    stroke="#23382A"
-    stroke-width="8"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <!-- Inner Shield -->
-  <path
-    d="M 100 42 L 66 56 C 63 60 62 66 62 74 L 65 104 C 67 124 81 144 100 160 C 119 144 133 124 135 104 L 138 74 C 138 66 137 60 134 56 L 115 48"
-    stroke="#23382A"
-    stroke-width="7"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <!-- Leaf Body -->
-  <path
-    d="M 128 44 C 136 78 132 120 78 148 C 74 130 68 96 96 66 C 108 53 120 46 128 44 Z"
-    fill="#4E9C54"
-    stroke="#23382A"
-    stroke-width="7"
-    stroke-linejoin="round"
-  />
-  <!-- Veins & Stem -->
-  <path
-    d="M 125 50 C 112 85 96 118 79 148 C 76 156 81 164 91 164 C 104 164 114 154 117 138"
-    stroke="#23382A"
-    stroke-width="6"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <path d="M 113 80 C 119 76 126 77 130 81" stroke="#23382A" stroke-width="5" stroke-linecap="round" />
-  <path d="M 103 100 C 111 98 120 100 124 107" stroke="#23382A" stroke-width="5" stroke-linecap="round" />
-  <path d="M 92 122 C 99 122 108 127 112 133" stroke="#23382A" stroke-width="5" stroke-linecap="round" />
-  <path d="M 104 90 C 96 91 88 88 83 83" stroke="#23382A" stroke-width="5" stroke-linecap="round" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 128" fill="none">
+  <!-- Safe Garden Official Brand Emblem Favicon -->
+  <line x1="18" y1="108" x2="102" y2="108" stroke="#1E4334" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 32 108 L 32 64 C 32 38, 44 24, 60 24 C 76 24, 88 38, 88 64 L 88 108" stroke="#1E4334" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="60" y1="108" x2="60" y2="68" stroke="#1E4334" stroke-width="5.5" stroke-linecap="round"/>
+  <path d="M 60 32 C 48 46, 48 58, 60 68 C 72 58, 72 46, 60 32 Z" stroke="#1E4334" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 32 64 C 40 68, 50 68, 60 68 C 70 68, 80 68, 88 64" stroke="#1E4334" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
