@@ -29,9 +29,25 @@ import {
   HelpCircle,
   ArrowLeft,
   KeyRound,
+  Copy,
+  Table,
+  CheckSquare,
+  Sparkles,
+  Database,
+  Layers,
 } from 'lucide-react';
 import { ConsultationItem } from '../types';
 import { SafeGardenLogo } from './SafeGardenLogo';
+import {
+  getGoogleSheetsWebhookUrl,
+  setGoogleSheetsWebhookUrl,
+  fetchConsultationsFromGoogleSheet,
+  updateGoogleSheetStatus,
+  updateGoogleSheetNote,
+  deleteGoogleSheetRow,
+  testGoogleSheetConnection,
+  GOOGLE_APPS_SCRIPT_CODE,
+} from '../services/sheetsWebhook';
 
 export const AdminView: React.FC = () => {
   // Authentication states
@@ -74,6 +90,15 @@ export const AdminView: React.FC = () => {
 
   const [showConfigHelp, setShowConfigHelp] = useState(false);
 
+  // Google Sheets Webhook (Method 1) integration states
+  const [sheetsUrl, setSheetsUrl] = useState<string>(() => getGoogleSheetsWebhookUrl());
+  const [sheetsInput, setSheetsInput] = useState<string>(() => getGoogleSheetsWebhookUrl());
+  const [isSavingSheetsUrl, setIsSavingSheetsUrl] = useState(false);
+  const [sheetsTestStatus, setSheetsTestStatus] = useState<{ success?: boolean; message: string } | null>(null);
+  const [isTestingSheets, setIsTestingSheets] = useState(false);
+  const [copiedScript, setCopiedScript] = useState(false);
+  const [showSheetsModal, setShowSheetsModal] = useState(false);
+
   // Verify stored token on mount
   useEffect(() => {
     const savedToken = sessionStorage.getItem('safegarden_admin_token');
@@ -112,6 +137,37 @@ export const AdminView: React.FC = () => {
     setIsLoading(true);
     setError('');
     try {
+      // 1. If Google Sheets Webhook (Method 1) is configured, fetch directly from Google Sheets
+      const webhookUrl = getGoogleSheetsWebhookUrl();
+      if (webhookUrl) {
+        try {
+          const sheetRes = await fetchConsultationsFromGoogleSheet(webhookUrl);
+          if (sheetRes.success && Array.isArray(sheetRes.data)) {
+            const localItems: ConsultationItem[] = JSON.parse(
+              localStorage.getItem('safegarden_local_consultations') || '[]'
+            );
+            const sheetIds = new Set(sheetRes.data.map((d) => d.id));
+            const merged = [...sheetRes.data];
+            for (const local of localItems) {
+              if (!sheetIds.has(local.id)) {
+                merged.push(local);
+              }
+            }
+            setConsultations(merged);
+            setSystemStatus({
+              googleSheets: 'CONFIGURED (Google Sheets 실시간 연동)',
+              emailAlerts: 'CONFIGURED (cuthip@gmail.com 자동 발송)',
+              adminEmail: 'cuthip@gmail.com',
+              gmailUser: 'cuthip@gmail.com',
+            });
+            setIsLoading(false);
+            return;
+          }
+        } catch (sheetErr) {
+          console.warn('Direct Google Sheet fetch warning:', sheetErr);
+        }
+      }
+
       let dataList: any = null;
       let dataStatus: any = null;
 
@@ -138,8 +194,8 @@ export const AdminView: React.FC = () => {
         const localItems = JSON.parse(localStorage.getItem('safegarden_local_consultations') || '[]');
         setConsultations(localItems);
         setSystemStatus({
-          googleSheets: 'Netlify Static / Client Mode',
-          emailAlerts: 'Netlify Static / Client Mode',
+          googleSheets: webhookUrl ? 'CONFIGURED (Google Sheets)' : '설정 대기 중 (상단 [구글 시트 연동] 클릭)',
+          emailAlerts: 'cuthip@gmail.com (Apps Script 연동 시 실시간 발송)',
           adminEmail: 'cuthip@gmail.com',
           gmailUser: 'cuthip@gmail.com',
         });
@@ -286,6 +342,14 @@ export const AdminView: React.FC = () => {
         // ignore
       }
 
+      // Sync to Google Sheet if Webhook URL is configured (Method 1)
+      const webhookUrl = getGoogleSheetsWebhookUrl();
+      if (webhookUrl) {
+        updateGoogleSheetStatus(id, newStatus, webhookUrl).catch((sheetErr) => {
+          console.warn('Google Sheet status update warning:', sheetErr);
+        });
+      }
+
       const res = await fetch(`/api/admin/consultations/${id}`, {
         method: 'PATCH',
         headers: {
@@ -293,9 +357,9 @@ export const AdminView: React.FC = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ status: newStatus }),
-      });
+      }).catch(() => null);
 
-      if (res.status === 401) {
+      if (res && res.status === 401) {
         handleLogout();
         return;
       }
@@ -307,7 +371,7 @@ export const AdminView: React.FC = () => {
         setSelectedItem((prev) => (prev ? { ...prev, status: newStatus } : null));
       }
     } catch (err) {
-      console.warn('Network update failed, updated in client state:', err);
+      console.warn('Status update fallback:', err);
       setConsultations((prev) =>
         prev.map((item) => (item.id === id ? { ...item, status: newStatus } : item))
       );
@@ -333,6 +397,14 @@ export const AdminView: React.FC = () => {
         // ignore
       }
 
+      // Sync note to Google Sheet if configured
+      const webhookUrl = getGoogleSheetsWebhookUrl();
+      if (webhookUrl) {
+        updateGoogleSheetNote(id, editNote, webhookUrl).catch((sheetErr) => {
+          console.warn('Google Sheet note update warning:', sheetErr);
+        });
+      }
+
       const res = await fetch(`/api/admin/consultations/${id}`, {
         method: 'PATCH',
         headers: {
@@ -340,9 +412,9 @@ export const AdminView: React.FC = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ adminNote: editNote }),
-      });
+      }).catch(() => null);
 
-      if (res.status === 401) {
+      if (res && res.status === 401) {
         handleLogout();
         return;
       }
@@ -354,7 +426,7 @@ export const AdminView: React.FC = () => {
         setSelectedItem((prev) => (prev ? { ...prev, adminNote: editNote } : null));
       }
     } catch (err) {
-      console.warn('Network note save failed, saved in client state:', err);
+      console.warn('Note save fallback:', err);
       setConsultations((prev) =>
         prev.map((item) => (item.id === id ? { ...item, adminNote: editNote } : item))
       );
@@ -378,12 +450,20 @@ export const AdminView: React.FC = () => {
         // ignore
       }
 
+      // Delete in Google Sheet if configured
+      const webhookUrl = getGoogleSheetsWebhookUrl();
+      if (webhookUrl) {
+        deleteGoogleSheetRow(id, webhookUrl).catch((sheetErr) => {
+          console.warn('Google Sheet delete warning:', sheetErr);
+        });
+      }
+
       const res = await fetch(`/api/admin/consultations/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
-      });
+      }).catch(() => null);
 
-      if (res.status === 401) {
+      if (res && res.status === 401) {
         handleLogout();
         return;
       }
@@ -393,7 +473,7 @@ export const AdminView: React.FC = () => {
         setSelectedItem(null);
       }
     } catch (err) {
-      console.warn('Network delete failed, deleted from client state:', err);
+      console.warn('Delete fallback:', err);
       setConsultations((prev) => prev.filter((item) => item.id !== id));
       if (selectedItem?.id === id) {
         setSelectedItem(null);
@@ -401,9 +481,63 @@ export const AdminView: React.FC = () => {
     }
   };
 
+  const handleSaveSheetsUrl = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setIsSavingSheetsUrl(true);
+    const trimmed = sheetsInput.trim();
+    setGoogleSheetsWebhookUrl(trimmed);
+    setSheetsUrl(trimmed);
+    setSheetsTestStatus({ success: true, message: 'Google Sheets Webhook URL이 성공적으로 저장되었습니다.' });
+    setTimeout(() => {
+      setIsSavingSheetsUrl(false);
+      fetchData();
+    }, 400);
+  };
+
+  const handleTestSheetsConnection = async () => {
+    setIsTestingSheets(true);
+    setSheetsTestStatus({ message: '구글 시트 및 cuthip@gmail.com 메일 발송 테스트 중...' });
+    try {
+      const activeUrl = sheetsInput.trim() || sheetsUrl.trim();
+      const res = await testGoogleSheetConnection(activeUrl);
+      setSheetsTestStatus(res);
+      if (res.success && activeUrl) {
+        setGoogleSheetsWebhookUrl(activeUrl);
+        setSheetsUrl(activeUrl);
+      }
+    } catch (err: any) {
+      setSheetsTestStatus({ success: false, message: err.message || '테스트 중 오류가 발생했습니다.' });
+    } finally {
+      setIsTestingSheets(false);
+    }
+  };
+
+  const handleCopyAppsScript = () => {
+    navigator.clipboard.writeText(GOOGLE_APPS_SCRIPT_CODE);
+    setCopiedScript(true);
+    setTimeout(() => setCopiedScript(false), 2500);
+  };
+
   const handleSendTestEmail = async () => {
     setIsSendingTestEmail(true);
     setTestEmailResult(null);
+
+    // If Google Sheets Webhook URL is set, test via Google Apps Script (Method 1)
+    const webhookUrl = sheetsUrl || getGoogleSheetsWebhookUrl();
+    if (webhookUrl) {
+      try {
+        const testRes = await testGoogleSheetConnection(webhookUrl);
+        setTestEmailResult({
+          success: testRes.success || false,
+          msg: testRes.message || 'cuthip@gmail.com 메일로 테스트가 전송되었습니다.',
+        });
+        setIsSendingTestEmail(false);
+        return;
+      } catch (scriptErr: any) {
+        console.warn('Apps script test email error:', scriptErr);
+      }
+    }
+
     try {
       const res = await fetch('/api/admin/test-email', {
         method: 'POST',
@@ -423,10 +557,16 @@ export const AdminView: React.FC = () => {
       if (data.sent) {
         setTestEmailResult({ success: true, msg: data.message || 'cuthip@gmail.com 메일로 테스트가 발송되었습니다.' });
       } else {
-        setTestEmailResult({ success: false, msg: data.message || data.error || '메일 발송에 실패했습니다.' });
+        setTestEmailResult({
+          success: false,
+          msg: data.message || data.error || '메일 발송에 실패했습니다. 상단의 [구글 시트 연동 설정]에서 Webhook URL을 등록해 주세요.',
+        });
       }
     } catch (err: any) {
-      setTestEmailResult({ success: false, msg: err.message || '서버 통신 실패' });
+      setTestEmailResult({
+        success: false,
+        msg: '서버 메일 발송이 불가한 환경입니다. 상단 [구글 시트 & 이메일 연동 (방법 1)]을 등록하시면 즉시 메일이 수신됩니다.',
+      });
     } finally {
       setIsSendingTestEmail(false);
     }
@@ -702,6 +842,13 @@ export const AdminView: React.FC = () => {
             {/* Quick Actions & Logout */}
             <div className="flex flex-wrap items-center gap-2">
               <button
+                onClick={() => setShowSheetsModal(true)}
+                className="px-3.5 py-2 bg-[#5E856F] hover:bg-[#B8A779] text-[#1E4334] rounded-lg text-xs font-bold flex items-center space-x-1.5 transition-all shadow-sm active:scale-95"
+              >
+                <Table className="w-3.5 h-3.5 text-[#1E4334]" />
+                <span>구글 시트 & 메일 연동 (방법 1)</span>
+              </button>
+              <button
                 onClick={() => fetchData()}
                 disabled={isLoading}
                 className="px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-all active:scale-95"
@@ -711,7 +858,7 @@ export const AdminView: React.FC = () => {
               </button>
               <button
                 onClick={exportCSV}
-                className="px-3.5 py-2 bg-[#5E856F] hover:bg-[#B8A779] text-[#1E4334] rounded-lg text-xs font-bold flex items-center space-x-1.5 transition-all shadow-sm active:scale-95"
+                className="px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-all active:scale-95"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>엑셀(CSV) 저장</span>
@@ -721,7 +868,7 @@ export const AdminView: React.FC = () => {
                 className="px-3 py-2 bg-white/10 hover:bg-white/20 text-[#5E856F] rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-all"
               >
                 <HelpCircle className="w-3.5 h-3.5" />
-                <span>연동 가이드</span>
+                <span>도움말</span>
               </button>
               <button
                 onClick={handleLogout}
@@ -749,31 +896,16 @@ export const AdminView: React.FC = () => {
                 </span>
               </div>
               <div className="flex items-center space-x-1.5">
-                <span className="text-[#1E4334]/60">메일 발송 상태:</span>
+                <span className="text-[#1E4334]/60">구글 시트 & 메일 상태:</span>
                 <span
-                  className={`font-semibold px-2 py-0.5 rounded text-[11px] ${
-                    systemStatus?.emailAlerts.includes('CONFIGURED')
+                  className={`font-semibold px-2 py-0.5 rounded text-[11px] flex items-center space-x-1 ${
+                    sheetsUrl
                       ? 'bg-emerald-100 text-emerald-800'
                       : 'bg-amber-100 text-amber-800'
                   }`}
                 >
-                  {systemStatus?.emailAlerts.includes('CONFIGURED')
-                    ? '정상 연동 중 (발송 가능)'
-                    : '앱 비밀번호 설정 대기 중'}
-                </span>
-              </div>
-              <div className="flex items-center space-x-1.5">
-                <span className="text-[#1E4334]/60">구글 시트 연동:</span>
-                <span
-                  className={`font-semibold px-2 py-0.5 rounded text-[11px] ${
-                    systemStatus?.googleSheets.includes('CONFIGURED')
-                      ? 'bg-emerald-100 text-emerald-800'
-                      : 'bg-blue-100 text-blue-800'
-                  }`}
-                >
-                  {systemStatus?.googleSheets.includes('CONFIGURED')
-                    ? '구글 시트 실시간 동기화 중'
-                    : '로컬 안전 보관 모드 (무손실)'}
+                  <span className={`w-1.5 h-1.5 rounded-full ${sheetsUrl ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+                  <span>{sheetsUrl ? '구글 시트 & 메일 자동 발송 연동됨' : '구글 시트 Webhook 미설정'}</span>
                 </span>
               </div>
             </div>
@@ -819,6 +951,266 @@ export const AdminView: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Google Sheets (Method 1) Quick Setup Banner */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-5">
+        <div className="bg-gradient-to-r from-[#1E4334] to-[#2B5E4A] rounded-xl text-white p-5 shadow-sm border border-[#1E4334]/20">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div className="space-y-1.5">
+              <div className="flex items-center space-x-2">
+                <span className="p-1.5 bg-white/10 rounded-lg text-[#FAF8F5]">
+                  <Table className="w-4 h-4 text-emerald-300" />
+                </span>
+                <h3 className="font-bold text-sm sm:text-base text-white">
+                  방법 1: Google Sheets & Apps Script 실시간 연동 (Netlify 정적 사이트 완벽 지원)
+                </h3>
+                <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                  sheetsUrl ? 'bg-emerald-400/20 text-emerald-300 border border-emerald-400/30' : 'bg-amber-400/20 text-amber-300 border border-amber-400/30'
+                }`}>
+                  {sheetsUrl ? '● 연동 완료' : '● URL 등록 대기'}
+                </span>
+              </div>
+              <p className="text-xs text-white/80 leading-relaxed max-w-3xl">
+                Google Sheets의 Apps Script Webhook URL을 등록하면, 고객이 상담 신청을 누르는 순간 
+                <strong className="text-white ml-1 underline underline-offset-2">① 구글 스프레드시트에 즉시 새 행이 추가</strong>되고, 
+                <strong className="text-white ml-1 underline underline-offset-2">② cuthip@gmail.com으로 안내 메일이 즉시 발송</strong>됩니다.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              <button
+                onClick={() => setShowSheetsModal(true)}
+                className="px-3.5 py-2 bg-white text-[#1E4334] hover:bg-[#FAF8F5] rounded-lg text-xs font-bold flex items-center space-x-1.5 shadow-sm transition-all"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-[#5E856F]" />
+                <span>1분 연동 가이드 & 코드 복사</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Quick Input Bar */}
+          <form onSubmit={handleSaveSheetsUrl} className="mt-4 pt-3.5 border-t border-white/15 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <div className="relative flex-1">
+              <input
+                type="url"
+                value={sheetsInput}
+                onChange={(e) => setSheetsInput(e.target.value)}
+                placeholder="Google Apps Script 웹 앱 URL 입력 (https://script.google.com/macros/s/.../exec)"
+                className="w-full px-3.5 py-2 bg-black/20 border border-white/20 rounded-lg text-xs text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400/50"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="submit"
+                disabled={isSavingSheetsUrl}
+                className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-xs font-bold transition-all disabled:opacity-50 shrink-0"
+              >
+                {isSavingSheetsUrl ? '저장 중...' : 'URL 저장'}
+              </button>
+              <button
+                type="button"
+                onClick={handleTestSheetsConnection}
+                disabled={isTestingSheets || !sheetsInput.trim()}
+                className="px-3.5 py-2 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-semibold transition-all disabled:opacity-40 shrink-0 flex items-center space-x-1"
+              >
+                {isTestingSheets ? <RefreshCw className="w-3 h-3 animate-spin" /> : <Send className="w-3 h-3" />}
+                <span>연동 & 메일 테스트</span>
+              </button>
+            </div>
+          </form>
+
+          {/* Test Status Msg */}
+          {sheetsTestStatus && (
+            <div className={`mt-3 p-2.5 rounded-lg text-xs flex items-center justify-between ${
+              sheetsTestStatus.success
+                ? 'bg-emerald-900/50 text-emerald-200 border border-emerald-400/30'
+                : 'bg-amber-900/50 text-amber-200 border border-amber-400/30'
+            }`}>
+              <div className="flex items-center space-x-2">
+                {sheetsTestStatus.success ? (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                ) : (
+                  <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+                )}
+                <span>{sheetsTestStatus.message}</span>
+              </div>
+              <button onClick={() => setSheetsTestStatus(null)} className="text-white/50 hover:text-white">
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Method 1 Full Setup Modal */}
+      {showSheetsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[#1E4334]/20 p-6 sm:p-8 space-y-6 text-[#1E4334]">
+            
+            {/* Modal Header */}
+            <div className="flex items-start justify-between pb-4 border-b border-[#1E4334]/10">
+              <div className="flex items-center space-x-3">
+                <div className="p-2.5 bg-[#1E4334] text-white rounded-xl">
+                  <Table className="w-5 h-5 text-[#5E856F]" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-[#1E4334]">
+                    방법 1: Google Sheets & 이메일 실시간 연동 (1분 완성 가이드)
+                  </h2>
+                  <p className="text-xs text-[#1E4334]/70 mt-0.5">
+                    Netlify 같은 정적 호스팅에서도 서버 비용 없이 영구적으로 안정적인 실시간 메일 수신이 가능합니다.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowSheetsModal(false)}
+                className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Step-by-Step Instructions */}
+            <div className="space-y-4 text-xs leading-relaxed">
+              <div className="bg-[#FAF8F5] p-4 rounded-xl border border-[#1E4334]/10 space-y-3">
+                <h4 className="font-bold text-sm text-[#1E4334] flex items-center space-x-2">
+                  <span className="w-5 h-5 rounded-full bg-[#1E4334] text-white text-[11px] font-mono flex items-center justify-center">1</span>
+                  <span>구글 드라이브에서 스프레드시트 생성</span>
+                </h4>
+                <p className="text-[#1E4334]/80 pl-7">
+                  <a
+                    href="https://sheets.new"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center space-x-1 text-emerald-700 font-bold hover:underline"
+                  >
+                    <span>Google Sheets 새 시트 바로 열기 (sheets.new)</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  {' '}로 접속하여 새 시트를 생성합니다. (제목 예시: <code>세이프가든 상담신청 DB</code>)
+                </p>
+              </div>
+
+              <div className="bg-[#FAF8F5] p-4 rounded-xl border border-[#1E4334]/10 space-y-3">
+                <h4 className="font-bold text-sm text-[#1E4334] flex items-center space-x-2">
+                  <span className="w-5 h-5 rounded-full bg-[#1E4334] text-white text-[11px] font-mono flex items-center justify-center">2</span>
+                  <span>확장 프로그램 &gt; Apps Script 열기</span>
+                </h4>
+                <p className="text-[#1E4334]/80 pl-7">
+                  시트 상단 메뉴에서 <strong>[확장 프로그램] &gt; [Apps Script]</strong>를 클릭하여 스크립트 편집기를 엽니다.
+                </p>
+              </div>
+
+              <div className="bg-[#FAF8F5] p-4 rounded-xl border border-[#1E4334]/10 space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-bold text-sm text-[#1E4334] flex items-center space-x-2">
+                    <span className="w-5 h-5 rounded-full bg-[#1E4334] text-white text-[11px] font-mono flex items-center justify-center">3</span>
+                    <span>아래의 스크립트 코드 복사 후 붙여넣기</span>
+                  </h4>
+                  <button
+                    type="button"
+                    onClick={handleCopyAppsScript}
+                    className="px-3 py-1 bg-[#1E4334] text-white hover:bg-[#255240] rounded-lg text-xs font-bold flex items-center space-x-1.5 transition-all shadow-xs"
+                  >
+                    {copiedScript ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span className="text-emerald-300">복사 완료!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5 text-[#5E856F]" />
+                        <span>코드 원클릭 복사</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                <p className="text-[#1E4334]/80 pl-7">
+                  기존에 적혀있는 <code>function myFunction() ...</code> 내용을 지우고, 복사한 코드를 그대로 붙여넣은 뒤 <strong>Ctrl + S (저장)</strong>를 누릅니다.
+                </p>
+                <div className="pl-7">
+                  <div className="bg-[#1B2B23] rounded-lg p-3 max-h-48 overflow-y-auto font-mono text-[11px] text-emerald-200 border border-emerald-900/50">
+                    <pre>{GOOGLE_APPS_SCRIPT_CODE}</pre>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-200 space-y-3">
+                <h4 className="font-bold text-sm text-emerald-950 flex items-center space-x-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-800 text-white text-[11px] font-mono flex items-center justify-center">4</span>
+                  <span>웹 앱 배포 (가장 중요: 권한 설정)</span>
+                </h4>
+                <div className="pl-7 space-y-2 text-emerald-900">
+                  <p>스크립트 편집기 우측 상단 파란색 <strong>[배포] &gt; [새 배포]</strong> 클릭</p>
+                  <ul className="list-disc list-inside space-y-1 bg-white/70 p-3 rounded-lg border border-emerald-200/60 font-medium">
+                    <li>유형 선택: <strong>[웹 앱 (Web App)]</strong> 선택</li>
+                    <li>설명: <code>세이프가든 연동</code> 입력</li>
+                    <li>다음 사용자 권한으로 실행: <strong>나 (cuthip@gmail.com)</strong></li>
+                    <li>
+                      액세스 권한이 있는 사용자: <strong className="text-red-700 bg-red-100 px-1.5 py-0.5 rounded">모든 사용자 (Anyone)</strong> 
+                      <span className="text-xs text-gray-600 block mt-0.5 ml-4">* '모든 사용자'로 선택해야 홈페이지 방문자가 인증 없이 신청서를 등록할 수 있습니다.</span>
+                    </li>
+                  </ul>
+                  <p className="text-[11px] text-emerald-800">
+                    * [배포] 클릭 후 Google 계정 권한 승인 창이 뜨면 <strong>[액세스 승인] &gt; [고급] &gt; [안전하지 않은 페이지로 이동] &gt; [허용]</strong>을 진행해 주세요.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-[#FAF8F5] p-4 rounded-xl border border-[#1E4334]/10 space-y-3">
+                <h4 className="font-bold text-sm text-[#1E4334] flex items-center space-x-2">
+                  <span className="w-5 h-5 rounded-full bg-[#1E4334] text-white text-[11px] font-mono flex items-center justify-center">5</span>
+                  <span>발급된 웹앱 URL 등록 및 테스트</span>
+                </h4>
+                <div className="pl-7 space-y-3">
+                  <p className="text-[#1E4334]/80">
+                    배포 완료 후 표시되는 <strong>웹 앱 URL (https://script.google.com/macros/s/.../exec)</strong>을 복사하여 아래에 입력하세요:
+                  </p>
+                  <form onSubmit={handleSaveSheetsUrl} className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="url"
+                      value={sheetsInput}
+                      onChange={(e) => setSheetsInput(e.target.value)}
+                      placeholder="https://script.google.com/macros/s/.../exec"
+                      className="flex-1 px-3.5 py-2.5 border border-[#1E4334]/20 rounded-lg text-xs focus:ring-2 focus:ring-[#1E4334] focus:outline-none"
+                    />
+                    <button
+                      type="submit"
+                      disabled={isSavingSheetsUrl}
+                      className="px-4 py-2.5 bg-[#1E4334] text-white rounded-lg text-xs font-bold hover:bg-[#255240] transition-colors"
+                    >
+                      {isSavingSheetsUrl ? '저장 중...' : 'URL 저장'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleTestSheetsConnection}
+                      disabled={isTestingSheets || !sheetsInput.trim()}
+                      className="px-4 py-2.5 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-700 transition-colors flex items-center space-x-1"
+                    >
+                      {isTestingSheets ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                      <span>테스트 발송</span>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="pt-4 border-t border-[#1E4334]/10 flex items-center justify-between">
+              <span className="text-xs text-[#1E4334]/70">
+                연동 완료 시 고객 신청 즉시 <strong>cuthip@gmail.com</strong>으로 메일이 전송됩니다.
+              </span>
+              <button
+                onClick={() => setShowSheetsModal(false)}
+                className="px-5 py-2.5 bg-[#1E4334] hover:bg-[#255240] text-white rounded-xl text-xs font-bold transition-all"
+              >
+                닫기
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
 
       {/* Config Help Drawer */}
       {showConfigHelp && (
