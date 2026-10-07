@@ -34,4 +34,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://sefegarden.netlify.app/sitemap.xml
+Sitemap: https://safegarden.netlify.app/sitemap.xml
